@@ -30,10 +30,14 @@ Create the production key on a trusted Windows computer with
   send it through chat.
 - `name.bikey` is public. Commit the mod's existing key as `keys/name.bikey`.
 
-Keep an encrypted offline backup of both files. Only the private key is stored
-as a base64 environment secret in `release-production`:
+Keep an encrypted offline backup of both files. Private keys are stored as a
+JSON object of base64 values in the `release-production` environment:
 
-- `BI_PRIVATE_KEY_B64`
+- `BI_PRIVATE_KEYS_JSON`
+
+`tools/signing.json` maps release PBO names to their existing authorities. A
+repository with several legacy PBO keys still uses one protected JSON secret.
+The secret has the form `{"authority":"base64-private-key"}`.
 
 The environment requires approval from `DarkBall123` before the Windows job
 can read the secrets.
