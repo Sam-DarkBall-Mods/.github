@@ -1,11 +1,14 @@
 # Sam DarkBall Mods
 
-Open-source Arma 3 mods maintained by DarkBall, Sam, and contributors.
+We make mods for Arma 3. Each released mod has its own repository, build
+configuration and issue tracker.
 
-Our repositories contain reproducible HEMTT projects, signed releases, and
-source code published under GPL-2.0-or-later. Arma-specific assets are
-published under APL-SA unless a closer notice states otherwise.
+The SQF code, Arma configs and build tools use GPL-2.0-or-later. Models,
+textures, materials, animations and audio made for the mods use APL-SA unless a
+file says otherwise.
 
-Please report bugs in the repository that owns the affected mod. Include the
-Arma 3 version, mod versions, reproduction steps, execution context, and RPT
-logs.
+## Found a bug?
+
+Open an issue in the repository for that mod. Please include the Arma 3 version,
+the mod versions, whether the problem happened in singleplayer or multiplayer,
+steps that reproduce it and the relevant part of the RPT log.
