@@ -3,19 +3,19 @@
 Pull requests and releases use different builds.
 
 Pull requests run on Linux and Windows. Linux always uses
-`hemtt build --no-bin`. Windows performs a full binarized build when the
-`ARMA3_TOOLS_URL` organization secret is available. Without that secret it
-runs the same non-binarized build as Linux.
+`hemtt build --no-bin`. Windows pull requests do the same because private
+build assets are never exposed to contributor code. A trusted push to `main`
+performs the full binarized build.
 
 A production tag never falls back to `--no-bin`. The release stops if Arma 3
 Tools, a Workshop ID or the signing keys are missing.
 
 ## Arma 3 Tools
 
-`ARMA3_TOOLS_URL` must point to a private ZIP of the full Arma 3 Tools
-directory. The ZIP is extracted to `C:\arma3tools` on the Windows runner, so
-directories such as `BinMake`, `Binarize` and `DSSignFile` must be at the
-root of the archive.
+The ZIP is stored as the `arma3-tools.zip` asset of the private
+`Sam-DarkBall-Mods/build-assets` release `arma3-tools-2026-08`. The read-only
+`BUILD_ASSETS_TOKEN` organization secret is limited to that repository. CI
+checks the pinned SHA-256 before extracting the archive to `C:\arma3tools`.
 
 No one needs to run these EXE files by hand during a normal release. HEMTT uses
 the binarization tools, and `tools/sign_release.ps1` calls
@@ -28,22 +28,19 @@ Create the production key on a trusted Windows computer with
 
 - `name.biprivatekey` is private. Never commit it, attach it to an issue or
   send it through chat.
-- `name.bikey` is public. It is copied into the `keys` directory of every
-  release.
+- `name.bikey` is public. Commit the mod's existing key as `keys/name.bikey`.
 
-Keep an encrypted offline backup of both files. The CI copy is stored as two
-base64 environment secrets in `release-production`:
+Keep an encrypted offline backup of both files. Only the private key is stored
+as a base64 environment secret in `release-production`:
 
 - `BI_PRIVATE_KEY_B64`
-- `BI_PUBLIC_KEY_B64`
 
 The environment requires approval from `DarkBall123` before the Windows job
 can read the secrets.
 
-The same key can sign every Sam-DarkBall-Mods release. This is convenient for
-server administrators because they install one public key. Separate keys per
-mod limit the impact of a leaked key, but servers then need one key for every
-mod. The workflow supports either choice.
+Each repository keeps its existing key pair. The workflow never generates,
+renames or replaces the committed `.bikey`. It copies that exact file into
+the release and fails if it does not verify the new `.bisign` files.
 
 ## Steam Workshop
 
@@ -77,4 +74,5 @@ also rejects backup and copy files inside `addons` and `optionals`.
 
 Top-level GitHub files, tests and build scripts stay in the source repository.
 Only the files listed in `.hemtt/project.toml` are copied beside the release
-PBOs.
+PBOs. Signing then adds the committed public key and generated `.bisign`
+files.
