@@ -1,0 +1,68 @@
+name: Bug report
+description: Report a reproducible problem in an Arma 3 mod
+title: "[Bug]: "
+labels: ["kind/bug"]
+body:
+  - type: dropdown
+    id: context
+    attributes:
+      label: Execution context
+      options:
+        - Dedicated Server
+        - Hosted Multiplayer
+        - Singleplayer
+        - Eden Editor Multiplayer
+        - Eden Editor Singleplayer
+        - Virtual Arsenal
+    validations:
+      required: true
+  - type: input
+    id: arma
+    attributes:
+      label: Arma 3 version
+      placeholder: "2.xx stable, profiling, performance, or dev"
+    validations:
+      required: true
+  - type: textarea
+    id: mods
+    attributes:
+      label: Loaded mods and versions
+      description: Reproduce with the smallest possible mod set.
+      placeholder: "CBA_A3 ..., this mod ..., other required dependencies ..."
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      placeholder: "1. ...\n2. ...\n3. ..."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: rpt
+    attributes:
+      label: RPT and additional evidence
+      description: Attach or link client/server RPT logs, screenshots, and a minimal mission when relevant.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched for duplicate issues.
+          required: true
+        - label: I reproduced this with the smallest possible mod set.
+          required: true
